@@ -41,6 +41,7 @@ A clean, modern Android productivity and medication reminder application built w
 
 ```text
 NeverForget/
+├── .github/workflows/unit-tests.yml                 # GitHub Actions CI workflow (JVM unit tests)
 ├── app/
 │   ├── src/
 │   │   ├── main/
@@ -93,6 +94,36 @@ NeverForget/
 ├── LICENSE
 └── README.md
 ```
+
+---
+
+## How Reminders & Alarms Work
+
+NeverForget separates scheduling, delivery, and recovery into distinct components so alerts fire reliably without mixing everyday tasks with medications:
+
+1. **Exact Alarm Scheduling (`ReminderScheduler`)**:
+   - Schedules exact trigger timestamps using `AlarmManager.setExactAndAllowWhileIdle()` for per-task due reminders, medication dose slots, snoozed alerts, and the configurable daily summary.
+   - Falls back cleanly and respects Android 14+ exact alarm permission checks while persisting active daily summary settings in `SharedPreferences`.
+2. **Strictly Isolated Notification Channels (`NotificationHelper`)**:
+   - **Tasks Channel (`todo_reminders_channel`)**: Delivers to-do alerts and snooze actions (`SnoozeReceiver`) and deep-links into the **Tasks** workspace.
+   - **Pills Channel (`pill_reminders_channel`)**: Delivers medication alerts with a dedicated capsule status-bar icon (`ic_stat_pill.xml`), lock-screen **`✓ Taken`** and snooze quick actions (`PillActionReceiver`), and deep links directly to the **Pills** tab.
+3. **Reboot & Daily Summary Resilience (`BootReceiver`, `DailyReminderWorker`)**:
+   - `BootReceiver` listens for `BOOT_COMPLETED` and `MY_PACKAGE_REPLACED` to re-arm all pending task alarms, active medication course doses, and the daily summary schedule after device restarts or app updates.
+   - `DailyReminderWorker` (AndroidX WorkManager) handles background summary checks cleanly within OS battery policies.
+
+---
+
+## Privacy & Permissions
+
+- **100% Offline & Local-Only**: All tasks, medication logs, and preferences are stored strictly on-device in the Room SQLite database (`AppDatabase`) and local `SharedPreferences`. NeverForget **does not request `android.permission.INTERNET`**, sends zero analytics or telemetry, requires no account, and contains no ads.
+- **Cloud Auto-Backup Disabled**: `AndroidManifest.xml` sets `android:allowBackup="false"` so personal task and medication histories are not automatically uploaded by Android system cloud backup (portable exports remain entirely under user control via manual JSON Backup & Restore).
+
+| Permission (`AndroidManifest.xml`) | Why It Is Needed |
+| :--- | :--- |
+| `POST_NOTIFICATIONS` | Display task and pill reminder notifications on Android 13+ (API 33+). |
+| `SCHEDULE_EXACT_ALARM` / `USE_EXACT_ALARM` | Fire task due reminders, medication dose schedules, and snoozes at the exact configured minute even in Doze mode. |
+| `RECEIVE_BOOT_COMPLETED` | Re-arm scheduled alarms and daily summaries automatically via `BootReceiver` after device reboot. |
+| `VIBRATE` | Provide tactile alert feedback when reminder notifications are delivered. |
 
 ---
 

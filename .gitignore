@@ -2,9 +2,14 @@
 .gradle/
 build/
 app/build/
+bin/
+gen/
+out/
+release/
 captures/
 .externalNativeBuild/
 .cxx/
+.kotlin/
 
 # Local configuration & SDK paths (never commit)
 local.properties
@@ -14,16 +19,22 @@ local.properties
 *.iml
 *.ipr
 *.iws
+misc.xml
+deploymentTargetSelector.xml
+navEditor.xml
 
-# Keystores & compiled packages
+# Keystores, compiled packages & heap dumps
 *.jks
 *.keystore
 *.apk
 *.ap_
 *.aab
 *.dex
+*.class
+*.hprof
 
 # OS & temporary files
 .DS_Store
 Thumbs.db
+desktop.ini
 *.log
