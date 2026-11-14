@@ -1,0 +1,29 @@
+# Gradle & build outputs
+.gradle/
+build/
+app/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Local configuration & SDK paths (never commit)
+local.properties
+
+# IDE & Android Studio metadata
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Keystores & compiled packages
+*.jks
+*.keystore
+*.apk
+*.ap_
+*.aab
+*.dex
+
+# OS & temporary files
+.DS_Store
+Thumbs.db
+*.log
