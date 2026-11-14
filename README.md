@@ -6,6 +6,14 @@ A clean, modern Android productivity and medication reminder application built w
 
 ---
 
+## Screenshots
+
+| Tasks Today | Add / Edit Task | Pills Today | Medication Schedule |
+| :---: | :---: | :---: | :---: |
+| <img src="docs/screenshots/01-tasks-today.png" width="200" alt="NeverForget Tasks Today" /> | <img src="docs/screenshots/02-task-editor.png" width="200" alt="NeverForget Task Editor" /> | <img src="docs/screenshots/03-pills-today.png" width="200" alt="NeverForget Pills Today" /> | <img src="docs/screenshots/04-pills-schedule.png" width="200" alt="NeverForget Active Medications" /> |
+
+---
+
 ## Key Features
 
 ### 1. Tasks Workspace
